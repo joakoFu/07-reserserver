@@ -1,0 +1,76 @@
+@startuml
+package "cl.bice.apiusuarioinversiones" {
+  [ApiUsuarioInversionesApplication] 
+  package config {
+    [ApiUsuarioInversionesConfiguration]
+    [LocalDateConverter]
+    [LocalDateTimeConverter]
+    [LoggingFilter]
+    [RestTemplateSSLConfig]
+    [SwaggerDocumentationConfig]
+    [SwaggerUiConfiguration]
+  }
+  package controller {
+    [DefaultApi]
+    [DefaultApiController]
+  }
+  package exception {
+    [InscribirUsuarioExceptionHandler]
+  }
+  package health {
+    [CustomHealthIndicator]
+  }
+  package invoker {
+    [EntrustUsuarioInvoker]
+    [InversorInvoker]
+    [RegistrarUsuarioInvoker]
+    [SmsUsuarioInvoker]
+    package impl {
+      [EntrustUsuarioInvokerImpl]
+      [InversorInvokerImpl]
+      [RegistrarUsuarioInvokerImpl]
+      [SmsUsuarioInvokerImpl]
+    }
+    package map {
+      [EntrustMap]
+    }
+  }
+  package model {
+    [EntityModel]
+  }
+  package services {
+    [ApiUsuarioInversionesServices]
+    package impl {
+      [ApiUsuarioInversionesServicesImpl]
+    }
+  }
+  package to {
+    [RetornoOperacion]
+    [TipoErrorEnum]
+    [TrakingUser]
+    package request {
+      [EntrustUserParamRequest]
+      [EntrustUserRequest]
+      [InscribirUsuarioRequest]
+    }
+    package response {
+      [ClienteInversorResponse]
+      [DataClienteInversorResponse]
+      [EntrustResponse]
+      [InscribirUsuarioResponse]
+    }
+  }
+}
+
+[DefaultApiController] --> [ApiUsuarioInversionesServices]
+[ApiUsuarioInversionesServicesImpl] ..|> [ApiUsuarioInversionesServices]
+[ApiUsuarioInversionesServicesImpl] --> [EntrustUsuarioInvoker]
+[ApiUsuarioInversionesServicesImpl] --> [InversorInvoker]
+[ApiUsuarioInversionesServicesImpl] --> [RegistrarUsuarioInvoker]
+[ApiUsuarioInversionesServicesImpl] --> [SmsUsuarioInvoker]
+[EntrustUsuarioInvokerImpl] ..|> [EntrustUsuarioInvoker]
+[InversorInvokerImpl] ..|> [InversorInvoker]
+[RegistrarUsuarioInvokerImpl] ..|> [RegistrarUsuarioInvoker]
+[SmsUsuarioInvokerImpl] ..|> [SmsUsuarioInvoker]
+[DefaultApiController] --> [InscribirUsuarioExceptionHandler]
+@enduml
